@@ -9,5 +9,4 @@ class BoardRedisApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }
