@@ -1,0 +1,13 @@
+spring:
+    datasource:
+        url: jdbc:mysql://awseb-e-92ahyx9iy9-stack-awsebrdsdatabase-dqtonnrrcrbo.crz4ofrogemb.ap-northeast-2.rds.amazonaws.com/board?useSSL=false&serverTimezone=Asia/Seoul
+        username: myboard
+        password: rlaqhdgy12!
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        properties:
+            hibernate:
+                format_sql: true
