@@ -1,4 +1,3 @@
-//.github/workflows/blank.yml
 name: Board Redis
 
 env:
