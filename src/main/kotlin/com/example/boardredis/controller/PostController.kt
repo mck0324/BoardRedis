@@ -1,6 +1,10 @@
 package com.example.boardredis.controller
 
-import com.example.boardredis.controller.dto.*
+import com.example.boardredis.controller.dto.PostCreateRequest
+import com.example.boardredis.controller.dto.PostDetailResponse
+import com.example.boardredis.controller.dto.PostSearchRequest
+import com.example.boardredis.controller.dto.PostSummaryResponse
+import com.example.boardredis.controller.dto.PostUpdateRequest
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -18,15 +22,15 @@ class PostController {
 
     @PostMapping("/posts")
     fun createPost(
-        @RequestBody postCreateRequest: PostCreateRequest
-    ) : Long {
-        return  1L
+        @RequestBody postCreateRequest: PostCreateRequest,
+    ): Long {
+        return 1L
     }
 
     @PutMapping("/posts/{id}")
     fun updatePost(
         @PathVariable id: Long,
-        @RequestBody postUpdateRequest: PostUpdateRequest
+        @RequestBody postUpdateRequest: PostUpdateRequest,
     ): Long {
         return id
     }
@@ -34,8 +38,8 @@ class PostController {
     @DeleteMapping("/posts/{id}")
     fun deletePost(
         @PathVariable id: Long,
-        @RequestParam createdBy: String
-    ): Long{
+        @RequestParam createdBy: String,
+    ): Long {
         println(createdBy)
         return id
     }
@@ -43,8 +47,8 @@ class PostController {
     @GetMapping("/posts/{id}")
     fun getPost(
         @PathVariable id: Long,
-    ): PostDetailResponse{
-        return PostDetailResponse(1L,"title","content","createdBy",LocalDateTime.now().toString())
+    ): PostDetailResponse {
+        return PostDetailResponse(1L, "title", "content", "createdBy", LocalDateTime.now().toString())
     }
 
     @GetMapping("/posts")
@@ -52,6 +56,8 @@ class PostController {
         pageable: Pageable,
         postSearchRequest: PostSearchRequest,
     ): Page<PostSummaryResponse> {
+        println("title:${postSearchRequest.title}")
+        println("createdBy:${postSearchRequest.createdBy}")
         return Page.empty()
     }
 }
