@@ -1,6 +1,7 @@
 package com.example.boardredis.service
 
 import com.example.boardredis.domain.Post
+import com.example.boardredis.exception.PostNotDeleteableException
 import com.example.boardredis.exception.PostNotFoundException
 import com.example.boardredis.exception.PostNotUpdateableException
 import com.example.boardredis.repository.PostRepository
@@ -76,4 +77,22 @@ class PostServiceTest(
             }
         }
     }
+
+    given("게시글 삭제시") {
+        val saved = postRepository.save(Post(title = "title", content = "content", createdBy = "harris"))
+        When("정상 삭제시") {
+            val postId = postService.deletePost(saved.id, "harris")
+            then("게시글 정상적으로 삭제됨을 확인") {
+                postId shouldBe saved.id
+                postRepository.findByIdOrNull(postId) shouldBe null
+            }
+        }
+        When("작성자가 동일하지 않으면") {
+            val saved2 = postRepository.save(Post(title = "title", content = "content", createdBy = "harris"))
+            then("삭제할 수 없는 게시물 입니다. 예외가 발생") {
+                shouldThrow<PostNotDeleteableException> {  postService.deletePost(saved2.id, "chris") }
+            }
+        }
+    }
+
 })
