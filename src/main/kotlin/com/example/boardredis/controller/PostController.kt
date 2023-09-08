@@ -31,7 +31,7 @@ class PostController(
         @PathVariable id: Long,
         @RequestBody postUpdateRequest: PostUpdateRequest,
     ): Long {
-        return id
+        return postService.updatePost(id, postUpdateRequest.toDto())
     }
 
     @DeleteMapping("/posts/{id}")
@@ -39,8 +39,7 @@ class PostController(
         @PathVariable id: Long,
         @RequestParam createdBy: String,
     ): Long {
-        println(createdBy)
-        return id
+        return postService.deletePost(id, createdBy)
     }
 
     @GetMapping("/posts/{id}")
