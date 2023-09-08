@@ -1,5 +1,6 @@
 package com.example.boardredis.service
 
+import com.example.boardredis.exception.PostNotDeleteableException
 import com.example.boardredis.exception.PostNotFoundException
 import com.example.boardredis.repository.PostRepository
 import com.example.boardredis.service.dto.PostCreateRequestDto
@@ -23,6 +24,14 @@ class PostService(
     fun updatePost(id: Long, requestDto: PostUpdateRequestDto): Long {
         val post = postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
         post.update(requestDto)
+        return id
+    }
+
+    @Transactional
+    fun deletePost(id: Long, deletedBy: String): Long {
+        val post = postRepository.findByIdOrNull(id)?: throw PostNotFoundException()
+        if (post.createdBy != deletedBy) throw PostNotDeleteableException()
+        postRepository.delete(post)
         return id
     }
 }
