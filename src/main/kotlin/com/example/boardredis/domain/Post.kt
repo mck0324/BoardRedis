@@ -1,5 +1,7 @@
 package com.example.boardredis.domain
 
+import com.example.boardredis.exception.PostNotUpdateableException
+import com.example.boardredis.service.dto.PostUpdateRequestDto
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
@@ -19,4 +21,13 @@ class Post(
         protected set
     var content: String = content
         protected set
+
+    fun update(postUpdateRequestDto: PostUpdateRequestDto) {
+        if (postUpdateRequestDto.updatedBy != this.createdBy) {
+            throw PostNotUpdateableException()
+        }
+        this.title = postUpdateRequestDto.title
+        this.content = postUpdateRequestDto.content
+        super.updatedBy(postUpdateRequestDto.updatedBy)
+    }
 }
