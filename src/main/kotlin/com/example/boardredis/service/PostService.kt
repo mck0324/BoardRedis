@@ -29,7 +29,7 @@ class PostService(
 
     @Transactional
     fun deletePost(id: Long, deletedBy: String): Long {
-        val post = postRepository.findByIdOrNull(id)?: throw PostNotFoundException()
+        val post = postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
         if (post.createdBy != deletedBy) throw PostNotDeleteableException()
         postRepository.delete(post)
         return id

@@ -1,6 +1,11 @@
 package com.example.boardredis.controller
 
-import com.example.boardredis.controller.dto.*
+import com.example.boardredis.controller.dto.PostCreateRequest
+import com.example.boardredis.controller.dto.PostDetailResponse
+import com.example.boardredis.controller.dto.PostSearchRequest
+import com.example.boardredis.controller.dto.PostSummaryResponse
+import com.example.boardredis.controller.dto.PostUpdateRequest
+import com.example.boardredis.controller.dto.toDto
 import com.example.boardredis.service.PostService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
