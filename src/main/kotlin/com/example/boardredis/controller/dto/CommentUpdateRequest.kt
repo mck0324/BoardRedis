@@ -1,6 +1,6 @@
 package com.example.boardredis.controller.dto
 
-data class CommentCreateReqeust (
+data class CommentUpdateRequest(
     val content: String,
-    val createdBy: String,
+    val updatedBy: String,
 )
