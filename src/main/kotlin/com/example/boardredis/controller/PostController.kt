@@ -1,11 +1,13 @@
 package com.example.boardredis.controller
 
+
 import com.example.boardredis.controller.dto.PostCreateRequest
 import com.example.boardredis.controller.dto.PostDetailResponse
 import com.example.boardredis.controller.dto.PostSearchRequest
 import com.example.boardredis.controller.dto.PostSummaryResponse
 import com.example.boardredis.controller.dto.PostUpdateRequest
 import com.example.boardredis.controller.dto.toDto
+import com.example.boardredis.controller.dto.toResponse
 import com.example.boardredis.service.PostService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -51,7 +53,7 @@ class PostController(
     fun getPost(
         @PathVariable id: Long,
     ): PostDetailResponse {
-        return PostDetailResponse(1L, "title", "content", "createdBy", LocalDateTime.now().toString())
+        return postService.getPost(id).toResponse()
     }
 
     @GetMapping("/posts")
@@ -59,8 +61,6 @@ class PostController(
         pageable: Pageable,
         postSearchRequest: PostSearchRequest,
     ): Page<PostSummaryResponse> {
-        println("title:${postSearchRequest.title}")
-        println("createdBy:${postSearchRequest.createdBy}")
-        return Page.empty()
+        return postService.findPageBy(pageable,postSearchRequest.toDto()).toResponse()
     }
 }
