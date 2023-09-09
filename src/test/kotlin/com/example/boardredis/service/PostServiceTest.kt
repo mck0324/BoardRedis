@@ -35,7 +35,7 @@ class PostServiceTest(
                 Post(title = "title7", content = "content", createdBy = "harris2"),
                 Post(title = "title8", content = "content", createdBy = "harris2"),
                 Post(title = "title9", content = "content", createdBy = "harris2"),
-                Post(title = "title10", content = "content", createdBy = "harris2"),
+                Post(title = "title10", content = "content", createdBy = "harris2")
             )
         )
     }
@@ -145,7 +145,7 @@ class PostServiceTest(
 
     given("게시글 목록조회시") {
         When("정상 조회시") {
-            val postPage = postService.findPageBy(PageRequest.of(0,5),PostSearchRequestDto())
+            val postPage = postService.findPageBy(PageRequest.of(0, 5), PostSearchRequestDto())
             then("게시글 페이지 반환됨을 확인") {
                 postPage.number shouldBe 0
                 postPage.size shouldBe 5
@@ -155,7 +155,7 @@ class PostServiceTest(
             }
         }
         When("title 검색") {
-            val postPage = postService.findPageBy(PageRequest.of(0,5), PostSearchRequestDto(title = "title1"))
+            val postPage = postService.findPageBy(PageRequest.of(0, 5), PostSearchRequestDto(title = "title1"))
             then("title에 해당하는 게시글이 반환됨") {
                 postPage.number shouldBe 0
                 postPage.size shouldBe 5
@@ -165,7 +165,7 @@ class PostServiceTest(
             }
         }
         When("작성자로 검색") {
-            val postPage = postService.findPageBy(PageRequest.of(0,5), PostSearchRequestDto(createdBy = "harris1"))
+            val postPage = postService.findPageBy(PageRequest.of(0, 5), PostSearchRequestDto(createdBy = "harris1"))
             then("작성자에 해당하는 게시글이 반환됨") {
                 postPage.number shouldBe 0
                 postPage.size shouldBe 5

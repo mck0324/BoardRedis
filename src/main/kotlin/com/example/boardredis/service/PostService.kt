@@ -1,11 +1,16 @@
 package com.example.boardredis.service
 
-import com.example.boardredis.service.dto.PostSummaryResponseDto
-import com.example.boardredis.service.dto.toSummaryResponseDto
 import com.example.boardredis.exception.PostNotDeleteableException
 import com.example.boardredis.exception.PostNotFoundException
 import com.example.boardredis.repository.PostRepository
-import com.example.boardredis.service.dto.*
+import com.example.boardredis.service.dto.PostCreateRequestDto
+import com.example.boardredis.service.dto.PostDetailResponseDto
+import com.example.boardredis.service.dto.PostSearchRequestDto
+import com.example.boardredis.service.dto.PostSummaryResponseDto
+import com.example.boardredis.service.dto.PostUpdateRequestDto
+import com.example.boardredis.service.dto.toDetailResponseDto
+import com.example.boardredis.service.dto.toEntity
+import com.example.boardredis.service.dto.toSummaryResponseDto
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
@@ -42,6 +47,6 @@ class PostService(
     }
 
     fun findPageBy(pageRequest: Pageable, postSearchRequestDto: PostSearchRequestDto): Page<PostSummaryResponseDto> {
-        return postRepository.findPageBy(pageRequest,postSearchRequestDto).toSummaryResponseDto()
+        return postRepository.findPageBy(pageRequest, postSearchRequestDto).toSummaryResponseDto()
     }
 }

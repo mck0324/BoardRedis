@@ -11,16 +11,16 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 interface PostRepository : JpaRepository<Post, Long>, CustomPostRepository
 
-interface  CustomPostRepository {
-    fun findPageBy(pageRequest: Pageable, postSearchRequestDto: PostSearchRequestDto) : Page<Post>
+interface CustomPostRepository {
+    fun findPageBy(pageRequest: Pageable, postSearchRequestDto: PostSearchRequestDto): Page<Post>
 }
 
-class CustomPostRepositoryImpl: CustomPostRepository, QuerydslRepositorySupport(Post::class.java) {
+class CustomPostRepositoryImpl : CustomPostRepository, QuerydslRepositorySupport(Post::class.java) {
     override fun findPageBy(pageRequest: Pageable, postSearchRequestDto: PostSearchRequestDto): Page<Post> {
         val result = from(post)
             .where(
                 postSearchRequestDto.title?. let { post.title.contains(it) },
-                postSearchRequestDto.createdBy?. let { post.createdBy.eq(it)}
+                postSearchRequestDto.createdBy?. let { post.createdBy.eq(it) }
             )
             .orderBy(post.createdAt.desc())
             .offset(pageRequest.offset)

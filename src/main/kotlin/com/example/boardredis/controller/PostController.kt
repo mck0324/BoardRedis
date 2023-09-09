@@ -1,6 +1,5 @@
 package com.example.boardredis.controller
 
-
 import com.example.boardredis.controller.dto.PostCreateRequest
 import com.example.boardredis.controller.dto.PostDetailResponse
 import com.example.boardredis.controller.dto.PostSearchRequest
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.time.LocalDateTime
 
 @RestController
 class PostController(
@@ -61,6 +59,6 @@ class PostController(
         pageable: Pageable,
         postSearchRequest: PostSearchRequest,
     ): Page<PostSummaryResponse> {
-        return postService.findPageBy(pageable,postSearchRequest.toDto()).toResponse()
+        return postService.findPageBy(pageable, postSearchRequest.toDto()).toResponse()
     }
 }

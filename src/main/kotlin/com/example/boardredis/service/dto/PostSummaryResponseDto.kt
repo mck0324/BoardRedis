@@ -21,5 +21,5 @@ fun Post.toSummaryResponseDto() = PostSummaryResponseDto(
     id = id,
     title = title,
     createdBy = createdBy,
-    createdAt = createdAt.toString(),
+    createdAt = createdAt.toString()
 )

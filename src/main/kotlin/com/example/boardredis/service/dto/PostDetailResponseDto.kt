@@ -10,10 +10,10 @@ data class PostDetailResponseDto(
     val createdAt: String,
 )
 
-fun Post.toDetai성lResponseDto() = PostDetailResponseDto(
+fun Post.toDetailResponseDto() = PostDetailResponseDto(
     id = id,
     title = title,
     content = content,
     createdBy = createdBy,
-    createdAt = createdAt.toString(),
+    createdAt = createdAt.toString()
 )
