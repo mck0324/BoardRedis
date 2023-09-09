@@ -36,9 +36,9 @@ class CommentController {
     @DeleteMapping("/comments/{commentId}")
     fun deleteComment(
         @PathVariable commentId: Long,
-        @RequestParam deleteBy: String,
+        @RequestParam deletedBy: String,
     ): Long {
-        println(deleteBy)
+        println(deletedBy)
         return commentId
     }
 }

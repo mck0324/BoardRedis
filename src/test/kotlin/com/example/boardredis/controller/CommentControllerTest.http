@@ -18,5 +18,4 @@ Content-Type: application/json
 
 ###댓글 삭제
 DELETE localhost:8080/comments/1?deletedBy=댓글삭제자
-Content-Type: application/json
 
