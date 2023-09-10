@@ -1,7 +1,10 @@
 package com.example.boardredis.service
 
 import com.example.boardredis.repository.CommentRepository
+import com.example.boardredis.service.dto.CommentCreateRequestDto
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.comparables.shouldBeGreaterThan
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
@@ -13,15 +16,20 @@ class CommentServiceTest(
 ): BehaviorSpec ({
     given("댓글 생성시") {
         When("인풋이 정상적으로 들어오면") {
-            val commentId = commentService.createComment(CommentCreateReqeustDto(
-                postId = 1L,
-                content = "댓글입니다.",
+            val commentId = commentService.createComment(1L, CommentCreateRequestDto(
+                content = "댓글 내용",
                 createdBy = "댓글 생성자",
             ))
             then("정상 생성됨을 확인") {
                 commentId shouldBeGreaterThan 0L
                 val comment = commentRepository.findByIdOrNull(commentId)
                 comment shouldNotBe null
+                comment?.content shouldBe "댓글 내용"
+                comment?.createdBy shouldBe "댓글 생성자"
+            }
+        }
+        When("게시글이 존재하지 않으면") {
+            then("게시글 존재하지 않음 예외가 발생") {
 
             }
         }
