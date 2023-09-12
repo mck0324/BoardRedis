@@ -1,7 +1,11 @@
 package com.example.boardredis.service
 
+import com.example.boardredis.domain.Post
+import com.example.boardredis.exception.PostNotFoundException
 import com.example.boardredis.repository.CommentRepository
+import com.example.boardredis.repository.PostRepository
 import com.example.boardredis.service.dto.CommentCreateRequestDto
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
@@ -13,10 +17,16 @@ import org.springframework.data.repository.findByIdOrNull
 class CommentServiceTest(
     private val commentService: CommentService,
     private val commentRepository: CommentRepository,
+    private val postRepository: PostRepository,
 ): BehaviorSpec ({
     given("댓글 생성시") {
+        val post = postRepository.save(Post(
+            title = "게시글 제목",
+            content = "게시글 내용",
+            createdBy = "게시글 작성자",
+        ))
         When("인풋이 정상적으로 들어오면") {
-            val commentId = commentService.createComment(1L, CommentCreateRequestDto(
+            val commentId = commentService.createComment(post.id, CommentCreateRequestDto(
                 content = "댓글 내용",
                 createdBy = "댓글 생성자",
             ))
@@ -30,7 +40,11 @@ class CommentServiceTest(
         }
         When("게시글이 존재하지 않으면") {
             then("게시글 존재하지 않음 예외가 발생") {
-
+                shouldThrow<PostNotFoundException> {
+                    commentService.createComment(999L,CommentCreateRequestDto(
+                    content = "댓글 내용",
+                    createdBy = "댓글 생성자",
+                )) }
             }
         }
     }
