@@ -1,5 +1,6 @@
 package com.example.boardredis.service
 
+import com.example.boardredis.exception.CommentDeletableException
 import com.example.boardredis.exception.CommentNotFoundException
 import com.example.boardredis.exception.PostNotFoundException
 import com.example.boardredis.repository.CommentRepository
@@ -28,6 +29,16 @@ class CommentService(
         val comment = commentRepository.findByIdOrNull(id) ?: throw CommentNotFoundException()
         comment.update(updateRequestDto)
         return comment.id
+    }
+
+    @Transactional
+    fun deleteComment(id: Long, deletedBy: String): Long {
+        val comment = commentRepository.findByIdOrNull(id) ?: throw CommentNotFoundException()
+        if (comment.createdBy != deletedBy) {
+            throw CommentDeletableException()
+        }
+        commentRepository.delete(comment)
+        return id
     }
 
 }
