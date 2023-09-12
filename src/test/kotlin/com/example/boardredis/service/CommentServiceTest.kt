@@ -2,6 +2,7 @@ package com.example.boardredis.service
 
 import com.example.boardredis.domain.Comment
 import com.example.boardredis.domain.Post
+import com.example.boardredis.exception.CommentDeletableException
 import com.example.boardredis.exception.CommentNotUpdatableException
 import com.example.boardredis.exception.PostNotFoundException
 import com.example.boardredis.repository.CommentRepository
@@ -98,7 +99,7 @@ class CommentServiceTest(
         }
         When("작성자와 삭제자가 다르면") {
             then("삭제할 수 없는 게시물 예외가 발생") {
-                shouldThrow<CommentDeleteableException> { commentService.deleteComment(saved2.id, "삭제자") }
+                shouldThrow<CommentDeletableException> { commentService.deleteComment(saved2.id, "삭제자") }
             }
         }
     }
