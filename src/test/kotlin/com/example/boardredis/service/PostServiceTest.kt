@@ -151,7 +151,7 @@ class PostServiceTest(
                 createdBy = "댓글 작성자"
             ))
             commentRepository.save(Comment(
-                content = "댓글 내용2",
+                content = "댓글 내용1",
                 post = saved,
                 createdBy = "댓글 작성자"
             ))
@@ -167,8 +167,8 @@ class PostServiceTest(
                 post.comments[1].content shouldBe "댓글 내용1"
                 post.comments[2].content shouldBe "댓글 내용2"
                 post.comments[0].createdBy shouldBe "댓글 작성자"
-                post.comments[1].createdBy shouldBe "댓글 작성자1"
-                post.comments[2].createdBy shouldBe "댓글 작성자2"
+                post.comments[1].createdBy shouldBe "댓글 작성자"
+                post.comments[2].createdBy shouldBe "댓글 작성자"
             }
         }
     }
