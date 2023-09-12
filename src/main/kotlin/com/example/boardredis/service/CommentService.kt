@@ -1,9 +1,11 @@
 package com.example.boardredis.service
 
+import com.example.boardredis.exception.CommentNotFoundException
 import com.example.boardredis.exception.PostNotFoundException
 import com.example.boardredis.repository.CommentRepository
 import com.example.boardredis.repository.PostRepository
 import com.example.boardredis.service.dto.CommentCreateRequestDto
+import com.example.boardredis.service.dto.CommentUpdateRequestDto
 import com.example.boardredis.service.dto.toEntity
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -19,6 +21,13 @@ class CommentService(
     fun createComment(postId: Long, createRequestDto: CommentCreateRequestDto): Long {
         val post = postRepository.findByIdOrNull(postId) ?: throw PostNotFoundException()
         return commentRepository.save(createRequestDto.toEntity(post)).id
+    }
+
+    @Transactional
+    fun updateComment(id: Long, updateRequestDto: CommentUpdateRequestDto): Long {
+        val comment = commentRepository.findByIdOrNull(id) ?: throw CommentNotFoundException()
+        comment.update(updateRequestDto)
+        return comment.id
     }
 
 }
