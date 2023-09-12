@@ -1,5 +1,6 @@
 package com.example.boardredis.service
 
+import com.example.boardredis.domain.Comment
 import com.example.boardredis.domain.Post
 import com.example.boardredis.exception.PostNotFoundException
 import com.example.boardredis.repository.CommentRepository
@@ -44,6 +45,36 @@ class CommentServiceTest(
                     commentService.createComment(999L,CommentCreateRequestDto(
                     content = "댓글 내용",
                     createdBy = "댓글 생성자",
+                )) }
+            }
+        }
+    }
+    given("댓글 수정시") {
+        val post = postRepository.save(Post(
+            title = "게시글 제목",
+            content = "게시글 내용",
+            createdBy = "게시글 생성자",
+        ))
+        val saved = commentRepository.save(Comment("댓글내용",post,"댓글 생성자"))
+        When("인풋이 정상적으로 들어오면") {
+            val updatedId = commentService.updateComment(1L,CommentUpdateRequestDto(
+                content = "수정된 댓글 내용",
+                updatedBy = "댓글 작성자"
+            ))
+            then("정상 수정됨을 확인") {
+                updatedId shouldBe saved.id
+                val updated = commentRepository.findByIdOrNull(updatedId)
+                updated shouldNotBe null
+                updated?.content shouldBe "수정된 댓글 내용"
+                updated?.updatedBy shouldBe "댓글 생성자"
+
+            }
+        }
+        When("작성자와 수정자가 다르면") {
+            then("수정할 수 없는 게시물 예외가 발생") {
+                shouldThrow<CommentNotUpdateableException> { commentService.updateComment(saved.id, CommentUpdateRequestDto(
+                    content = "수정된 댓글 내용",
+                    updatedBy = "수정된 댓글 작성자"
                 )) }
             }
         }
