@@ -81,4 +81,25 @@ class CommentServiceTest(
             }
         }
     }
+    given("댓글 삭제시") {
+        val post = postRepository.save(Post(
+            title = "게시글 제목",
+            content = "게시글 내용",
+            createdBy = "게시글 생성자",
+        ))
+        val saved = commentRepository.save(Comment("댓글 내용",post,"댓글 생성자"))
+        val saved2 = commentRepository.save(Comment("댓글 내용2",post,"댓글 생성자2"))
+        When("인풋이 정상적으로 들어오면") {
+            val commentId = commentService.deleteComment(saved.id, "댓글 생성자")
+            then("정상 삭제됨을 확인") {
+                commentId shouldBe saved.id
+                commentRepository.findByIdOrNull(commentId) shouldBe null
+            }
+        }
+        When("작성자와 삭제자가 다르면") {
+            then("삭제할 수 없는 게시물 예외가 발생") {
+                shouldThrow<CommentDeleteableException> { commentService.deleteComment(saved2.id, "삭제자") }
+            }
+        }
+    }
 })
