@@ -10,5 +10,5 @@ data class CommentCreateRequestDto(
 fun CommentCreateRequestDto.toEntity(post: Post) = Comment(
     content = content,
     createdBy = createdBy,
-    post = post,
+    post = post
 )

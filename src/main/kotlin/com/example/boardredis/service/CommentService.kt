@@ -40,5 +40,4 @@ class CommentService(
         commentRepository.delete(comment)
         return id
     }
-
 }

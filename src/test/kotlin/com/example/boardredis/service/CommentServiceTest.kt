@@ -22,18 +22,23 @@ class CommentServiceTest(
     private val commentService: CommentService,
     private val commentRepository: CommentRepository,
     private val postRepository: PostRepository,
-): BehaviorSpec ({
+) : BehaviorSpec({
     given("댓글 생성시") {
-        val post = postRepository.save(Post(
-            title = "게시글 제목",
-            content = "게시글 내용",
-            createdBy = "게시글 작성자",
-        ))
+        val post = postRepository.save(
+            Post(
+                title = "게시글 제목",
+                content = "게시글 내용",
+                createdBy = "게시글 작성자"
+            )
+        )
         When("인풋이 정상적으로 들어오면") {
-            val commentId = commentService.createComment(post.id, CommentCreateRequestDto(
-                content = "댓글 내용",
-                createdBy = "댓글 생성자",
-            ))
+            val commentId = commentService.createComment(
+                post.id,
+                CommentCreateRequestDto(
+                    content = "댓글 내용",
+                    createdBy = "댓글 생성자"
+                )
+            )
             then("정상 생성됨을 확인") {
                 commentId shouldBeGreaterThan 0L
                 val comment = commentRepository.findByIdOrNull(commentId)
@@ -45,51 +50,66 @@ class CommentServiceTest(
         When("게시글이 존재하지 않으면") {
             then("게시글 존재하지 않음 예외가 발생") {
                 shouldThrow<PostNotFoundException> {
-                    commentService.createComment(999L,CommentCreateRequestDto(
-                    content = "댓글 내용",
-                    createdBy = "댓글 생성자",
-                )) }
+                    commentService.createComment(
+                        999L,
+                        CommentCreateRequestDto(
+                            content = "댓글 내용",
+                            createdBy = "댓글 생성자"
+                        )
+                    )
+                }
             }
         }
     }
     given("댓글 수정시") {
-        val post = postRepository.save(Post(
-            title = "게시글 제목",
-            content = "게시글 내용",
-            createdBy = "게시글 생성자",
-        ))
-        val saved = commentRepository.save(Comment("댓글 내용",post,"댓글 생성자"))
+        val post = postRepository.save(
+            Post(
+                title = "게시글 제목",
+                content = "게시글 내용",
+                createdBy = "게시글 생성자"
+            )
+        )
+        val saved = commentRepository.save(Comment("댓글 내용", post, "댓글 생성자"))
         When("인풋이 정상적으로 들어오면") {
-            val updatedId = commentService.updateComment(saved.id, CommentUpdateRequestDto(
-                content = "수정된 댓글 내용",
-                updatedBy = "댓글 생성자"
-            ))
+            val updatedId = commentService.updateComment(
+                saved.id,
+                CommentUpdateRequestDto(
+                    content = "수정된 댓글 내용",
+                    updatedBy = "댓글 생성자"
+                )
+            )
             then("정상 수정됨을 확인") {
                 updatedId shouldBe saved.id
                 val updated = commentRepository.findByIdOrNull(updatedId)
                 updated shouldNotBe null
                 updated?.content shouldBe "수정된 댓글 내용"
                 updated?.updatedBy shouldBe "댓글 생성자"
-
             }
         }
         When("작성자와 수정자가 다르면") {
             then("수정할 수 없는 게시물 예외가 발생") {
-                shouldThrow<CommentNotUpdatableException> { commentService.updateComment(saved.id, CommentUpdateRequestDto(
-                    content = "수정된 댓글 내용",
-                    updatedBy = "수정된 댓글 작성자"
-                )) }
+                shouldThrow<CommentNotUpdatableException> {
+                    commentService.updateComment(
+                        saved.id,
+                        CommentUpdateRequestDto(
+                            content = "수정된 댓글 내용",
+                            updatedBy = "수정된 댓글 작성자"
+                        )
+                    )
+                }
             }
         }
     }
     given("댓글 삭제시") {
-        val post = postRepository.save(Post(
-            title = "게시글 제목",
-            content = "게시글 내용",
-            createdBy = "게시글 생성자",
-        ))
-        val saved = commentRepository.save(Comment("댓글 내용",post,"댓글 생성자"))
-        val saved2 = commentRepository.save(Comment("댓글 내용2",post,"댓글 생성자2"))
+        val post = postRepository.save(
+            Post(
+                title = "게시글 제목",
+                content = "게시글 내용",
+                createdBy = "게시글 생성자"
+            )
+        )
+        val saved = commentRepository.save(Comment("댓글 내용", post, "댓글 생성자"))
+        val saved2 = commentRepository.save(Comment("댓글 내용2", post, "댓글 생성자2"))
         When("인풋이 정상적으로 들어오면") {
             val commentId = commentService.deleteComment(saved.id, "댓글 생성자")
             then("정상 삭제됨을 확인") {

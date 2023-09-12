@@ -22,7 +22,7 @@ class CommentController(
         @PathVariable postId: Long,
         @RequestBody commentCreateRequest: CommentCreateRequest,
     ): Long {
-        return commentService.createComment(postId,commentCreateRequest.toDto())
+        return commentService.createComment(postId, commentCreateRequest.toDto())
     }
 
     @PutMapping("/comments/{commentId}")
@@ -38,6 +38,6 @@ class CommentController(
         @PathVariable commentId: Long,
         @RequestParam deletedBy: String,
     ): Long {
-        return commentService.deleteComment(commentId,deletedBy)
+        return commentService.deleteComment(commentId, deletedBy)
     }
 }

@@ -9,5 +9,5 @@ data class CommentCreateRequest(
 
 fun CommentCreateRequest.toDto() = CommentCreateRequestDto(
     content = content,
-    createdBy = createdBy,
+    createdBy = createdBy
 )
