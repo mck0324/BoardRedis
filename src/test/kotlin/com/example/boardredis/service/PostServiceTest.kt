@@ -1,9 +1,11 @@
 package com.example.boardredis.service
 
+import com.example.boardredis.domain.Comment
 import com.example.boardredis.domain.Post
 import com.example.boardredis.exception.PostNotDeleteableException
 import com.example.boardredis.exception.PostNotFoundException
 import com.example.boardredis.exception.PostNotUpdateableException
+import com.example.boardredis.repository.CommentRepository
 import com.example.boardredis.repository.PostRepository
 import com.example.boardredis.service.dto.PostCreateRequestDto
 import com.example.boardredis.service.dto.PostSearchRequestDto
@@ -22,6 +24,7 @@ import org.springframework.data.repository.findByIdOrNull
 class PostServiceTest(
     private val postService: PostService,
     private val postRepository: PostRepository,
+    private val commentRepository: CommentRepository,
 ) : BehaviorSpec({
     beforeSpec {
         postRepository.saveAll(
@@ -139,6 +142,33 @@ class PostServiceTest(
         When("게시글이 없을때") {
             then("게시글을 찾을 수 없다라는 예외가 발생") {
                 shouldThrow<PostNotFoundException> { postService.getPost(9999L) }
+            }
+        }
+        When("댓글 추가시") {
+            commentRepository.save(Comment(
+                content = "댓글 내용",
+                post = saved,
+                createdBy = "댓글 작성자"
+            ))
+            commentRepository.save(Comment(
+                content = "댓글 내용2",
+                post = saved,
+                createdBy = "댓글 작성자"
+            ))
+            commentRepository.save(Comment(
+                content = "댓글 내용2",
+                post = saved,
+                createdBy = "댓글 작성자"
+            ))
+            val post = postService.getPost(saved.id)
+            then("댓글이 함께 조회됨을 확인") {
+                post.comments.size shouldBe 3
+                post.comments[0].content shouldBe "댓글 내용"
+                post.comments[1].content shouldBe "댓글 내용1"
+                post.comments[2].content shouldBe "댓글 내용2"
+                post.comments[0].createdBy shouldBe "댓글 작성자"
+                post.comments[1].createdBy shouldBe "댓글 작성자1"
+                post.comments[2].createdBy shouldBe "댓글 작성자2"
             }
         }
     }
