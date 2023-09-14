@@ -9,8 +9,8 @@ import jakarta.persistence.ManyToOne
 
 @Entity
 class Tag(
-    name : String,
-    post : Post,
+    name: String,
+    post: Post,
     createdBy: String,
 ) : BaseEntity(createdBy) {
     @Id
