@@ -7,6 +7,7 @@ import com.example.boardredis.exception.PostNotFoundException
 import com.example.boardredis.exception.PostNotUpdateableException
 import com.example.boardredis.repository.CommentRepository
 import com.example.boardredis.repository.PostRepository
+import com.example.boardredis.repository.TagRepository
 import com.example.boardredis.service.dto.PostCreateRequestDto
 import com.example.boardredis.service.dto.PostSearchRequestDto
 import com.example.boardredis.service.dto.PostUpdateRequestDto
@@ -25,6 +26,7 @@ class PostServiceTest(
     private val postService: PostService,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
+    private val tagRepository: TagRepository,
 ) : BehaviorSpec({
     beforeSpec {
         postRepository.saveAll(
@@ -58,6 +60,22 @@ class PostServiceTest(
                 post?.title shouldBe "제목"
                 post?.content shouldBe "내용"
                 post?.createdBy shouldBe "harris"
+            }
+        }
+        When("태그가 추가되면") {
+            val postId = postService.createPost(
+                PostCreateRequestDto(
+                    title = "제목",
+                    content = "내용",
+                    createdBy = "harris",
+                    tags = listOf("tag1","tag2")
+                )
+            )
+            then("태그가 정상적으로 추가됨을 확인") {
+                val tags = tagRepository.findByPostId(postId)
+                tags.size shouldBe 2
+                tags[0].name shouldBe "tag1"
+                tags[1].name shouldBe "tag2"
             }
         }
     }
