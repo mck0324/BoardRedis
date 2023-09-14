@@ -13,5 +13,5 @@ fun PostCreateRequest.toDto() = PostCreateRequestDto(
     title = title,
     content = content,
     createdBy = createdBy,
-    tags = tags,
+    tags = tags
 )

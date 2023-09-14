@@ -68,7 +68,7 @@ class PostServiceTest(
                     title = "제목",
                     content = "내용",
                     createdBy = "harris",
-                    tags = listOf("tag1","tag2")
+                    tags = listOf("tag1", "tag2")
                 )
             )
             then("태그가 정상적으로 추가됨을 확인") {
@@ -80,7 +80,9 @@ class PostServiceTest(
         }
     }
     given("게시글 수정시") {
-        val saved = postRepository.save(Post(title = "title", content = "content", createdBy = "harris", tags = listOf("tag1","tag2")))
+        val saved = postRepository.save(
+            Post(title = "title", content = "content", createdBy = "harris", tags = listOf("tag1", "tag2"))
+        )
         When("정상 수정시") {
             val updatedId = postService.updatePost(
                 saved.id,
@@ -134,7 +136,7 @@ class PostServiceTest(
                     title = "update title",
                     content = "update content",
                     updatedBy = "harris",
-                    tags = listOf("tag1","tag2","tag3"),
+                    tags = listOf("tag1", "tag2", "tag3")
                 )
             )
             then("정상적으로 수정됨을 확인") {
@@ -149,7 +151,7 @@ class PostServiceTest(
                         title = "update title",
                         content = "update content",
                         updatedBy = "harris",
-                        tags = listOf("tags3","tags2","tag1"),
+                        tags = listOf("tags3", "tags2", "tag1")
                     )
                 )
                 val tags = tagRepository.findByPostId(updatedId)
