@@ -32,16 +32,16 @@ class PostServiceTest(
     beforeSpec {
         postRepository.saveAll(
             listOf(
-                Post(title = "title1", content = "content", createdBy = "harris1"),
-                Post(title = "title12", content = "content", createdBy = "harris1"),
-                Post(title = "title13", content = "content", createdBy = "harris1"),
-                Post(title = "title14", content = "content", createdBy = "harris1"),
-                Post(title = "title15", content = "content", createdBy = "harris1"),
-                Post(title = "title6", content = "content", createdBy = "harris2"),
-                Post(title = "title7", content = "content", createdBy = "harris2"),
-                Post(title = "title8", content = "content", createdBy = "harris2"),
-                Post(title = "title9", content = "content", createdBy = "harris2"),
-                Post(title = "title10", content = "content", createdBy = "harris2")
+                Post(title = "title1", content = "content", createdBy = "harris1", tags = listOf("tag1","tag2")),
+                Post(title = "title12", content = "content", createdBy = "harris1", tags = listOf("tag1","tag2")),
+                Post(title = "title13", content = "content", createdBy = "harris1", tags = listOf("tag1","tag2")),
+                Post(title = "title14", content = "content", createdBy = "harris1", tags = listOf("tag1","tag2")),
+                Post(title = "title15", content = "content", createdBy = "harris1", tags = listOf("tag1","tag2")),
+                Post(title = "title6", content = "content", createdBy = "harris2", tags = listOf("tag1","tag2")),
+                Post(title = "title7", content = "content", createdBy = "harris2", tags = listOf("tag1","tag2")),
+                Post(title = "title8", content = "content", createdBy = "harris2", tags = listOf("tag1","tag2")),
+                Post(title = "title9", content = "content", createdBy = "harris2", tags = listOf("tag1","tag2")),
+                Post(title = "title10", content = "content", createdBy = "harris2", tags = listOf("tag1","tag2")),
             )
         )
     }
@@ -272,6 +272,11 @@ class PostServiceTest(
                 postPage.content.size shouldBe 5
                 postPage.content[0].title shouldContain "title1"
                 postPage.content[0].createdBy shouldBe "harris1"
+            }
+            then("첫번째 태그가 함께 조회됨을 확인") {
+                postPage.content.forEach {
+                    it.firstTag shouldBe "tag1"
+                }
             }
         }
     }
