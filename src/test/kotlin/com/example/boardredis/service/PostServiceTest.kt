@@ -2,6 +2,7 @@ package com.example.boardredis.service
 
 import com.example.boardredis.domain.Comment
 import com.example.boardredis.domain.Post
+import com.example.boardredis.domain.Tag
 import com.example.boardredis.exception.PostNotDeleteableException
 import com.example.boardredis.exception.PostNotFoundException
 import com.example.boardredis.exception.PostNotUpdateableException
@@ -180,6 +181,13 @@ class PostServiceTest(
 
     given("게시글 상세조회시") {
         val saved = postRepository.save(Post(title = "title", content = "content", createdBy = "harris"))
+        tagRepository.saveAll(
+            listOf(
+                Tag(name = "tag1", post = saved, createdBy = "harris"),
+                Tag(name = "tag2", post = saved, createdBy = "harris"),
+                Tag(name = "tag3", post = saved, createdBy = "harris"),
+            )
+        )
         When("정상 조회시") {
             val post = postService.getPost(saved.id)
             then("게시글의 내용이 정상적으로 반환됨을 확인") {
@@ -187,6 +195,12 @@ class PostServiceTest(
                 post.title shouldBe "title"
                 post.content shouldBe "content"
                 post.createdBy shouldBe "harris"
+            }
+            then("태그가 정상적으로 조회됨을 확인") {
+                post.tags.size shouldBe 3
+                post.tags[0] shouldBe "tag1"
+                post.tags[1] shouldBe "tag2"
+                post.tags[2] shouldBe "tag3"
             }
         }
         When("게시글이 없을때") {
