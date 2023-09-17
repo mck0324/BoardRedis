@@ -37,11 +37,11 @@ class PostServiceTest(
                 Post(title = "title13", content = "content", createdBy = "harris1", tags = listOf("tag1","tag2")),
                 Post(title = "title14", content = "content", createdBy = "harris1", tags = listOf("tag1","tag2")),
                 Post(title = "title15", content = "content", createdBy = "harris1", tags = listOf("tag1","tag2")),
-                Post(title = "title6", content = "content", createdBy = "harris2", tags = listOf("tag1","tag2")),
-                Post(title = "title7", content = "content", createdBy = "harris2", tags = listOf("tag1","tag2")),
-                Post(title = "title8", content = "content", createdBy = "harris2", tags = listOf("tag1","tag2")),
-                Post(title = "title9", content = "content", createdBy = "harris2", tags = listOf("tag1","tag2")),
-                Post(title = "title10", content = "content", createdBy = "harris2", tags = listOf("tag1","tag2")),
+                Post(title = "title6", content = "content", createdBy = "harris2", tags = listOf("tag1","tag5")),
+                Post(title = "title7", content = "content", createdBy = "harris2", tags = listOf("tag1","tag5")),
+                Post(title = "title8", content = "content", createdBy = "harris2", tags = listOf("tag1","tag5")),
+                Post(title = "title9", content = "content", createdBy = "harris2", tags = listOf("tag1","tag5")),
+                Post(title = "title10", content = "content", createdBy = "harris2", tags = listOf("tag1","tag5")),
             )
         )
     }
@@ -277,6 +277,19 @@ class PostServiceTest(
                 postPage.content.forEach {
                     it.firstTag shouldBe "tag1"
                 }
+            }
+        }
+        When("태그로 검색") {
+            val postPage = postService.findPageBy(PageRequest.of(0,5), PostSearchRequestDto(tag = "tag5"))
+            then("태그에 해당하는 게시글이 반환") {
+                postPage.number shouldBe 0
+                postPage.size shouldBe 5
+                postPage.content.size shouldBe 5
+                postPage.content[0].title shouldBe "title10"
+                postPage.content[1].title shouldBe "title9"
+                postPage.content[2].title shouldBe "title8"
+                postPage.content[3].title shouldBe "title7"
+                postPage.content[4].title shouldBe "title6"
             }
         }
     }
