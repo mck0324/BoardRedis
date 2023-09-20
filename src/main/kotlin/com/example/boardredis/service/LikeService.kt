@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class LikeService (
+class LikeService(
     private val likeRepository: LikeRepository,
     private val postRepository: PostRepository,
 ) {

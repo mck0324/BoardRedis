@@ -16,9 +16,9 @@ class LikeServiceTest(
     private val likeService: LikeService,
     private val likeRepository: LikeRepository,
     private val postRepository: PostRepository,
-): BehaviorSpec ({
+) : BehaviorSpec({
     given("좋아요 생성시") {
-        val saved =  postRepository.save(Post("harris","title","content"))
+        val saved = postRepository.save(Post("harris", "title", "content"))
         When("인풋이 정상적으로 돌아오면") {
             val likeId = likeService.createLike(saved.id, "harris")
             then("좋아요가 정상적으로 생성됨") {
