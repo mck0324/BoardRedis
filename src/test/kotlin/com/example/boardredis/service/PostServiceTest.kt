@@ -28,6 +28,7 @@ class PostServiceTest(
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
     private val tagRepository: TagRepository,
+    private val likeService: LikeService,
 ) : BehaviorSpec({
     beforeSpec {
         postRepository.saveAll(
@@ -290,6 +291,19 @@ class PostServiceTest(
                 postPage.content[2].title shouldBe "title8"
                 postPage.content[3].title shouldBe "title7"
                 postPage.content[4].title shouldBe "title6"
+            }
+        }
+        When("좋아요가 2개 추가되었을 때") {
+            val postPage = postService.findPageBy(PageRequest.of(0, 5), PostSearchRequestDto(tag = "tag5"))
+            postPage.content.forEach {
+                likeService.createLike(it.id, "harris1")
+                likeService.createLike(it.id, "harris2")
+            }
+            val likedPostPage = postService.findPageBy(PageRequest.of(0,5), PostSearchRequestDto(tag = "tag5"))
+            then("좋아요 개수가 정상적으로 조회됨") {
+                likedPostPage.content.forEach {
+                    it.likeCount shouldBe 2
+                }
             }
         }
     }
