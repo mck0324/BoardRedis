@@ -305,7 +305,7 @@ class PostServiceTest(
                 likeService.createLike(it.id, "harris1")
                 likeService.createLike(it.id, "harris2")
             }
-            val likedPostPage = postService.findPageBy(PageRequest.of(0,5), PostSearchRequestDto(tag = "tag5"))
+            val likedPostPage = postService.findPageBy(PageRequest.of(0, 5), PostSearchRequestDto(tag = "tag5"))
             then("좋아요 개수가 정상적으로 조회됨") {
                 likedPostPage.content.forEach {
                     it.likeCount shouldBe 2
