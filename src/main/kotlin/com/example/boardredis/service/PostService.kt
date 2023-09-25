@@ -52,7 +52,7 @@ class PostService(
 
     fun findPageBy(pageRequest: Pageable, postSearchRequestDto: PostSearchRequestDto): Page<PostSummaryResponseDto> {
         postSearchRequestDto.tag?.let {
-            return tagRepository.findPageBy(pageRequest, it).toSummaryResponseDto(likeService:: countLike)
+            return tagRepository.findPageBy(pageRequest, it).toSummaryResponseDto(likeService::countLike)
         }
         return postRepository.findPageBy(pageRequest, postSearchRequestDto)
             .toSummaryResponseDto(likeService::countLike)

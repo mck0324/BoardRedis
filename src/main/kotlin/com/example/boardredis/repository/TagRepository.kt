@@ -12,11 +12,11 @@ interface TagRepository : JpaRepository<Tag, Long>, CustomTagRepository {
     fun findByPostId(postId: Long): List<Tag>
 }
 
-interface CustomTagRepository{
+interface CustomTagRepository {
     fun findPageBy(pageRequest: Pageable, tagName: String): Page<Tag>
 }
 
-class CustomTagRepositoryImpl: CustomTagRepository, QuerydslRepositorySupport(Tag::class.java) {
+class CustomTagRepositoryImpl : CustomTagRepository, QuerydslRepositorySupport(Tag::class.java) {
     override fun findPageBy(pageRequest: Pageable, tagName: String): Page<Tag> {
         return from(tag)
             .join(tag.post).fetchJoin()
@@ -27,5 +27,4 @@ class CustomTagRepositoryImpl: CustomTagRepository, QuerydslRepositorySupport(Ta
             .fetchResults()
             .let { PageImpl(it.results, pageRequest, it.total) }
     }
-
 }
