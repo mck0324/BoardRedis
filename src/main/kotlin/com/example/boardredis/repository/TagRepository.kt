@@ -1,5 +1,6 @@
 package com.example.boardredis.repository
 
+import com.example.boardredis.domain.QPost.post
 import com.example.boardredis.domain.QTag.tag
 import com.example.boardredis.domain.Tag
 import org.springframework.data.domain.Page
@@ -19,7 +20,7 @@ interface CustomTagRepository {
 class CustomTagRepositoryImpl : CustomTagRepository, QuerydslRepositorySupport(Tag::class.java) {
     override fun findPageBy(pageRequest: Pageable, tagName: String): Page<Tag> {
         return from(tag)
-            .join(tag.post).fetchJoin()
+            .join(tag.post, post).fetchJoin()
             .where(tag.name.eq(tagName))
             .orderBy(tag.post.createdAt.desc())
             .offset(pageRequest.offset)
