@@ -17,4 +17,5 @@ fun Tag.toSummaryResponseDto(countLike: (Long) -> Long) = PostSummaryResponseDto
     createdAt = post.createdAt.toString(),
     firstTag = name,
     likeCount = countLike(post.id)
+
 )
