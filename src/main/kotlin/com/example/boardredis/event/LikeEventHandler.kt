@@ -8,7 +8,9 @@ import com.example.boardredis.repository.PostRepository
 import com.example.boardredis.util.RedisUtil
 import org.springframework.context.event.EventListener
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
+import org.springframework.transaction.event.TransactionalEventListener
 
 @Service
 class LikeEventHandler(
@@ -16,8 +18,10 @@ class LikeEventHandler(
     private val likeRepository: LikeRepository,
     private val redisUtil: RedisUtil,
 ) {
-    @EventListener(LikeEvent::class)
+    @Async
+    @TransactionalEventListener(LikeEvent::class)
     fun handle(event: LikeEvent)  {
+        Thread.sleep(3000)
         val post = postRepository.findByIdOrNull(event.postId) ?: throw PostNotFoundException()
         redisUtil.increment(redisUtil.getLikeCountKey(event.postId))
         likeRepository.save(Like(post, event.createdBy)).id
