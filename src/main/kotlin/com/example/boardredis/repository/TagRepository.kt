@@ -14,7 +14,7 @@ interface TagRepository : JpaRepository<Tag, Long>, CustomTagRepository {
 }
 
 interface CustomTagRepository {
-    fun  findPageBy(pageRequest: Pageable, tagName: String): Page<Tag>
+    fun findPageBy(pageRequest: Pageable, tagName: String): Page<Tag>
 }
 
 class CustomTagRepositoryImpl : CustomTagRepository, QuerydslRepositorySupport(Tag::class.java) {

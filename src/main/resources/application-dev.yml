@@ -14,5 +14,5 @@ spring:
     cache:
         type: redis
         redis:
-            host:
+            host: board-redis-0001-001.iixytp.0001.apn2.cache.amazonaws.com
             port: 6379

@@ -24,10 +24,9 @@ class LikeService(
     }
 
     fun countLike(postId: Long): Long {
-        redisUtil.getCount(redisUtil.getLikeCountKey(postId))?.let{ return it }
-
+        redisUtil.getCount(redisUtil.getLikeCountKey(postId))?.let { return it }
         with(likeRepository.countByPostId(postId)) {
-            redisUtil.setData(redisUtil.getLikeCountKey(postId),this)
+            redisUtil.setData(redisUtil.getLikeCountKey(postId), this)
             return this
         }
     }
