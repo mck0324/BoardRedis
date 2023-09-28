@@ -1,16 +1,10 @@
 package com.example.boardredis.service
 
-import com.example.boardredis.domain.Post
-import com.example.boardredis.exception.PostNotFoundException
 import com.example.boardredis.repository.LikeRepository
 import com.example.boardredis.repository.PostRepository
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.extensions.testcontainers.perSpec
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.repository.findByIdOrNull
 import org.testcontainers.containers.GenericContainer
 
 @SpringBootTest

@@ -1,13 +1,10 @@
 package com.example.boardredis.service
 
-import com.example.boardredis.domain.Like
 import com.example.boardredis.event.dto.LikeEvent
-import com.example.boardredis.exception.PostNotFoundException
 import com.example.boardredis.repository.LikeRepository
 import com.example.boardredis.repository.PostRepository
 import com.example.boardredis.util.RedisUtil
 import org.springframework.context.ApplicationEventPublisher
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
